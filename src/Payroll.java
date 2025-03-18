@@ -1,3 +1,4 @@
+//employee class
 abstract class Employee {
     // instance variables
     private String firstName;
@@ -18,29 +19,32 @@ abstract class Employee {
     }
 
     // getters
-    public String getFirstName() {
+    public String getFirstName() {//get first name
         return firstName;
     }
 
-    public String getLastName() {
+    public String getLastName() {//get last name
         return lastName;
     }
 
-    public int getId() {
+    public int getId() {//get id
         return id;
     }
 
     // setters
-
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {//set first name
         this.firstName = firstName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName) {//set last name
         this.lastName = lastName;
     }
 
-    public void setId(int id) {
+    public void setId(int id) {//set id
+        if (id < 0) {
+            throw new IllegalArgumentException("ID must be greater than 0");
+        }
+
         this.id = id;
     }
 
@@ -55,7 +59,7 @@ abstract class Employee {
     //equals
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;//check if obj is null or not the same class
         Employee employee = (Employee) obj;
         return id == employee.id;
     }
@@ -64,13 +68,13 @@ abstract class Employee {
     public abstract float earnings();
 }
 
-
+// HourlyEmployee class
 class HourlyEmployee extends Employee
 {
     private int hours;
     private float wage;
 
-
+//constructor
     public HourlyEmployee(String firstName, String lastName, int id, float wage, int hours) {
         super(firstName, lastName, id);
         this.wage = wage;
@@ -83,6 +87,7 @@ class HourlyEmployee extends Employee
         this.hours = 0;
     }
 
+    // getters
     public float getWage() {
         return wage;
     }
@@ -91,16 +96,17 @@ class HourlyEmployee extends Employee
         return hours;
     }
 
-    public void setWage(float wage) {
-        if (wage < 0) {
+    // setters
+    public void setWage(float wage) {//set wage
+        if (wage < 0) {//check if wage is less than 0
             throw new IllegalArgumentException("Wage must be greater than 0");
         }
 
         this.wage = wage;
     }
 
-    public void setHours(int hours) {
-        if (hours < 0) {
+    public void setHours(int hours) {//set hours
+        if (hours < 0) {//check if hours is less than 0
             throw new IllegalArgumentException("Hours must be greater than 0");
         }
 
@@ -108,7 +114,7 @@ class HourlyEmployee extends Employee
     }
 
 
-
+//toString
     @Override
     public String toString() {
         return super.toString() +
@@ -116,24 +122,28 @@ class HourlyEmployee extends Employee
                 ", hours=" + hours;
     }
 
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;//check if obj is null or not the same class
+        HourlyEmployee hourlyEmployee = (HourlyEmployee) obj;
+        return super.equals(obj) && wage == hourlyEmployee.wage && hours == hourlyEmployee.hours;
+    }
+
+    //earnings
     @Override
     public float earnings() {
         return wage * hours;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
-        HourlyEmployee hourlyEmployee = (HourlyEmployee) obj;
-        return super.equals(obj) && wage == hourlyEmployee.wage && hours == hourlyEmployee.hours;
-    }
 }
 
+// CommissionEmployee class
 class CommissionEmployee extends Employee
 {
     private float grossSales;
     private int commission;
 
+    //constructor
     public CommissionEmployee(String firstName, String lastName, int id, float grossSales, int commission) {
         super(firstName, lastName, id);
         this.grossSales = grossSales;
@@ -156,16 +166,16 @@ class CommissionEmployee extends Employee
     }
 
     // setters
-    public void setGrossSales(float grossSales) {
-        if (grossSales < 0) {
+    public void setGrossSales(float grossSales) {//set gross sales
+        if (grossSales < 0) {//check if gross sales is less than 0
             throw new IllegalArgumentException("Gross sales must be greater than 0");
         }
 
         this.grossSales = grossSales;
     }
 
-    public void setCommission(int commission) {
-        if (commission < 0) {
+    public void setCommission(int commission) {//set commission
+        if (commission < 0) {//check if commission is less than 0
             throw new IllegalArgumentException("Commission must be greater than 0");
         }
 
@@ -181,13 +191,15 @@ class CommissionEmployee extends Employee
                 ", commission=" + commission;
     }
 
+    //equals
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;//check if obj is null or not the same class
         CommissionEmployee commissionEmployee = (CommissionEmployee) obj;
         return super.equals(obj) && grossSales == commissionEmployee.grossSales && commission == commissionEmployee.commission;
     }
 
+    //earnings
     @Override
     public float earnings() {
         return (grossSales * commission) / 100;
@@ -195,10 +207,12 @@ class CommissionEmployee extends Employee
 
 }
 
+// BasePlusCommissionEmployee class
 class BasePlusCommissionEmployee extends CommissionEmployee
 {
     private float baseSalary;
 
+    //constructor
     public BasePlusCommissionEmployee(String firstName, String lastName, int id, float grossSales, int commission, float baseSalary) {
         super(firstName, lastName, id, grossSales, commission);
         this.baseSalary = baseSalary;
@@ -215,8 +229,8 @@ class BasePlusCommissionEmployee extends CommissionEmployee
     }
 
     // setter
-    public void setBaseSalary(float baseSalary) {
-        if (baseSalary < 0) {
+    public void setBaseSalary(float baseSalary) {//set base salary
+        if (baseSalary < 0) {//check if base salary is less than 0
             throw new IllegalArgumentException("Base salary must be greater than 0");
         }
 
@@ -230,30 +244,33 @@ class BasePlusCommissionEmployee extends CommissionEmployee
                 ", baseSalary=" + String.format("%.2f", baseSalary);
     }
 
+    //equals
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false; //check if obj is null or not the same class
         BasePlusCommissionEmployee basePlusCommissionEmployee = (BasePlusCommissionEmployee) obj;
         return super.equals(obj) && baseSalary == basePlusCommissionEmployee.baseSalary;
     }
 
+    //earnings
     @Override
     public float earnings() {
         return super.earnings() + baseSalary;
     }
 }
 
+//test the previous classes in the "main" function
 class payroll
 {
-    public static void main(String[] args) {
+    public static void main(String[] args) {//main function
         Employee[] employees = new Employee[3];
         employees[0] = new HourlyEmployee("Yair", "Goldshtein", 458473789, 30, 40);
         employees[1] = new CommissionEmployee("Guy", "Yehezkel", 457803579, 5000, 10);
         employees[2] = new BasePlusCommissionEmployee("Hilel Yosef", "Orenshtein", 874848785, 10000, 20, 500);
 
-        for (Employee employee : employees) {
+        for (Employee employee : employees) {//for each employee
             float earnings = employee.earnings();
-            if (employee.getClass() == BasePlusCommissionEmployee.class) {
+            if (employee.getClass() == BasePlusCommissionEmployee.class) {//check if the employee is BasePlusCommissionEmployee, and if so, increase the base salary by 10%
                 BasePlusCommissionEmployee basePlusCommissionEmployee = (BasePlusCommissionEmployee) employee;
                 basePlusCommissionEmployee.setBaseSalary(basePlusCommissionEmployee.getBaseSalary() * 1.10f);
                 earnings = basePlusCommissionEmployee.earnings();
